@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Robotika: Circulations de Thomas Shaw</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Custom Robotika Style -->
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0b0f24;
+            color: #fff;
+        }
+        #map {
+            height: 600px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
+            border-radius: 15px;
+        }
+        header {
+            background-color: #0b3d91;
+            color: white;
+            padding: 10px;
+            text-align: left; /* Align text to the left */
+            padding-left: 40px; /* Move the title further left */
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.7);
+        }
+        h1, h3 {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .legend {
+            background-color: #1e1e30;
+            padding: 10px;
+            line-height: 1.5;
+            font-size: 14px;
+            color: #00bfff;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+            border-radius: 10px;
+            margin: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        .legend span {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 50%;
+        }
+        /* Glow effect for map elements */
+        .leaflet-container a {
+            color: #00bfff;
+        }
+        .leaflet-popup-content-wrapper {
+            background-color: #0b1e3f;
+            color: #00bfff;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.6);
+        }
+        .leaflet-popup-tip {
+            background-color: #0b1e3f;
+        }
+        .popup-content img {
+            width: 150px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Les Circulations de Thomas Shaw</h1>
+    <p>Découvrez les circulations académiques, professionnelles, géographiques de Thomas Shaw</p>
+</header>
+
+<!-- Expanded Legend -->
+<div class="legend" id="legend">
+    <h3>Légende des Circulations</h3>
+    <p><span style="background-color: #00bfff;"></span> Circulations Académiques (Études Linguistiques et Éducation)</p>
+    <p><span style="background-color: #0044cc;"></span> Circulations Professionnelles (Relations Diplomatiques et Missionnaires)</p>
+    <p><span style="background-color: #32cd32;"></span> Circulations Géographiques (Cartographie et Exploration Régionale)</p>
+    <p><span style="background-color: #ffdd44;"></span> Circulations Linguistiques (Étude des Langues Berbères)</p>
+    <p><span style="background-color: #6600ff;"></span> Circulations de Collaborations (Travaux Collaboratifs avec Autres Savants)</p>
+    <p><span style="background-color: #ff6347;"></span> Circulations Ethnographiques (Étude des Coutumes, Fantasia et Chevaux)</p>
+</div>
+
+<!-- 3D Map Section -->
+<div id="map"></div>
+
+<!-- Leaflet.js Script -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+    // Initialize the map with a blue filter and futuristic zoom
+    var map = L.map('map', {
+        zoomControl: false,
+    }).setView([32.5, 10], 5);
+
+    // Add futuristic tile layer (Blue color scheme)
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>',
+    }).addTo(map);
+
+    // Custom 3D Markers for key locations
+    var customMarker = L.divIcon({
+        className: 'custom-marker',
+        html: '<div style="width: 20px; height: 20px; background-color: #00bfff; border-radius: 50%; box-shadow: 0 0 15px rgba(0,191,255,0.8);"></div>',
+    });
+
+    // Marker for Algiers (Circulations Linguistiques)
+    L.marker([36.7372, 3.0869], {icon: customMarker}).addTo(map)
+        .bindPopup("<b>Alger, Algérie</b><br>Shaw a étudié les dialectes berbères ici.<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Tifinagh_in_UCAS.png/800px-Tifinagh_in_UCAS.png' class='popup-content' alt='Tifinagh Script'><br>Un aperçu de l'écriture berbère Tifinagh.");
+
+    // Marker for Tunis (Circulations Académiques)
+    L.marker([36.8065, 10.1815], {icon: customMarker}).addTo(map)
+        .bindPopup("<b>Tunis, Tunisie</b><br>Shaw a cartographié la régence de Tunis en 1743.<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Map_of_Regency_of_Tunis_1743.jpg/1200px-Map_of_Regency_of_Tunis_1743.jpg' class='popup-content' alt='Map of Regency of Tunis'><br>Carte de la Régence de Tunis.");
+
+    // Marker for Levant (Circulations Académiques)
+    L.marker([31.5, 35.5], {icon: customMarker}).addTo(map)
+        .bindPopup("<b>Levant (Palestine et Syrie)</b><br>Explorations en Palestine et Syrie enrichissant la recherche linguistique.");
+
+    // Marker for Egypt (Circulations Professionnelles)
+    L.marker([26.8206, 30.8025], {icon: customMarker}).addTo(map)
+        .bindPopup("<b>Égypte</b><br>Explorations des pratiques sociales égyptiennes et les similarités avec les pratiques berbères.");
+
+    // Marker for Sahara (Circulations Linguistiques)
+    L.marker([21.0, 0.0], {icon: customMarker}).addTo(map)
+        .bindPopup("<b>Sahara (Touaregs)</b><br>Études des Touaregs et de l’écriture Tifinagh.<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Tifinagh_letters.png/800px-Tifinagh_letters.png' class='popup-content' alt='Tifinagh Letters'><br>Lettrage Tifinagh.");
+
+    // 3D Circulations with Colors
+    function createColoredRegion(coords, color, label) {
+        L.polygon(coords, {
+            color: color, 
+            fillOpacity: 0.3,
+            weight: 3,
+            dashArray: '10, 20',
+            dashOffset: '20'
+        }).addTo(map).bindPopup(label);
+    }
+
+    // 3D Regions for Circulations
+
+    // Circulations Académiques (Light Blue)
+    createColoredRegion([[36.7372, 3.0869], [36.8065, 10.1815], [31.5, 35.5]], '#00bfff', 'Circulations Académiques: Alger, Tunis, Levant');
+
+    // Circulations Professionnelles (Dark Blue)
+    createColoredRegion([[36.7372, 3.0869], [26.8206, 30.8025]], '#0044cc', 'Circulations Professionnelles: Alger et Égypte');
+
+    // Circulations Géographiques (Green)
+    createColoredRegion([[36.7372, 3.0869], [21.0, 0.0]], '#32cd32', 'Circulations Géographiques: Alger et Sahara');
+
+    // Circulations Linguistiques (Yellow)
+    createColoredRegion([[36.8065, 10.1815], [21.0, 0.0]], '#ffdd44', 'Circulations Linguistiques: Tunis et Sahara');
+
+    // Circulations de Collaborations (Purple)
+    createColoredRegion([[36.7372, 3.0869], [36.8065, 10.1815]], '#6600ff', 'Circulations de Collaborations: Alger et Tunis');
+
+    // Circulations Ethnographiques (Red)
+    createColoredRegion([[36.7372, 3.0869], [26.8206, 30.8025]], '#ff6347', 'Circulations Ethnographiques: Alger et Sahara');
+
+</script>
+
+</body>
+</html>
